@@ -6,6 +6,10 @@ Run
 
     go run main.go db.go
 
+    or if you have Linux
+
+    ./main
+
 Request
 
     curl -H "Content-Type: application/json" -X POST -d '{"id":1}' http://*:4000
