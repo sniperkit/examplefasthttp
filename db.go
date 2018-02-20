@@ -52,10 +52,3 @@ func InitDB(s string) (err error) {
 	}
 	return err
 }
-
-// ReturnBooks get field from table books
-func ReturnBooks(db *sql.DB, Id int) (s *Data, err error) {
-	s = new(Data)
-	err = db.QueryRow("SELECT title, author, price FROM books WHERE id = ?", Id).Scan(&s.Title, &s.Author, &s.Price)
-	return s, err
-}
