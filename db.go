@@ -8,7 +8,7 @@ import (
 )
 
 // InitDB initial database
-func InitDB(s string) (err error) {
+func InitDB(s string) error {
 	db, err = sql.Open("sqlite3", s)
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(10)
