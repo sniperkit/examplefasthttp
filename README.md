@@ -15,7 +15,7 @@ Request
 Build
 
     make check - check errors
-    make vendor - update vendor pakages
+    make vendor - update vendor packages
     make build - build app
 
 Size
