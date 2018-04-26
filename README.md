@@ -11,3 +11,13 @@ Request
     curl -H "Content-Type: application/json" -X POST -d '{"id":1}' http://*:4000
     curl -H "Content-Type: application/json" -X POST -d '{"id":2}' http://*:4000
     curl -H "Content-Type: application/json" -X POST -d '{"id":3}' http://*:4000
+
+Build
+
+    make check - check errors
+    make vendor - update vendor pakages
+    make build - build app
+
+Size
+
+    goupx ./bin/linux/app

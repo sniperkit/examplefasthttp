@@ -36,12 +36,6 @@
   version = "v1.6.0"
 
 [[projects]]
-  name = "github.com/pkg/errors"
-  packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
-
-[[projects]]
   name = "github.com/valyala/fasthttp"
   packages = [
     ".",
@@ -53,6 +47,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "93a3ee7aae9b955efed1a724b4f0b807e977f8a0934c5558a9f0c645f18281d7"
+  inputs-digest = "6b6022c1566b81318c6463c456271f41c7bb3fd5226f5e0586223ab6c287259c"
   solver-name = "gps-cdcl"
   solver-version = 1
