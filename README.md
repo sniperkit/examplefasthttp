@@ -8,7 +8,7 @@ Run
 
     or if you have Linux
 
-    ./main
+    ./bin/linux/app
 
 Request
 

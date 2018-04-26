@@ -1,10 +1,13 @@
-package mydb
+package main
 
 import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
 	"log"
+	"github.com/valyala/fasthttp"
+	"fmt"
+	"encoding/json"
 )
 
 // Handler for mydb
@@ -12,17 +15,17 @@ type Handler struct {
 	db *sql.DB
 }
 
-// InitDB initial mydb
-func (d *Handler) InitDB() (*sql.DB, error) {
+// initDB initial mydb
+func (p *Handler) initDB() (*sql.DB, error) {
 	var err error
-	d.db, err = sql.Open("sqlite3", "./book.mydb")
+	p.db, err = sql.Open("sqlite3", "./book.mydb")
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err = d.db.Ping(); err != nil {
+	if err = p.db.Ping(); err != nil {
 		log.Fatal(err)
 	}
-	tx, err1 := d.db.Begin()
+	tx, err1 := p.db.Begin()
 	if err1 != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +40,7 @@ func (d *Handler) InitDB() (*sql.DB, error) {
 	create unique index books_id_uindex on books (id);
 	delete from books;
 `
-	_, err = d.db.Exec(sql)
+	_, err = p.db.Exec(sql)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,5 +66,39 @@ func (d *Handler) InitDB() (*sql.DB, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return d.db, err
+	return p.db, err
 }
+
+// Parse handle json request
+func (p *Handler) parse(ctx *fasthttp.RequestCtx) {
+	req := ctx.PostBody()
+	if req == nil {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		fmt.Fprintf(ctx, "Error, please send a request body, 400\n")
+		return
+	}
+	var r Data
+	err := json.Unmarshal(req, &r)
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		fmt.Fprintf(ctx, "Bad request, 400\n")
+		return
+	}
+	err = p.db.QueryRow("SELECT title, author, price FROM books WHERE id = ?", r.ID).Scan(&r.Title, &r.Author,
+		&r.Price)
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		fmt.Fprintf(ctx, "Error, not found value, 404\n")
+		return
+	}
+	b, err := json.Marshal(r)
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
+		fmt.Fprintf(ctx, "Error, internal server error, 500\n")
+		return
+	}
+	ctx.SetStatusCode(fasthttp.StatusOK)
+	ctx.SetContentType("application/json")
+	ctx.Write(b)
+}
+
