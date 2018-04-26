@@ -26,7 +26,7 @@ type Data struct {
 // initDB initial db
 func (p *Handler) initDB() (*sql.DB, error) {
 	var err error
-	p.db, err = sql.Open("sqlite3", "./book.mydb")
+	p.db, err = sql.Open("sqlite3", "./book.db")
 	if err != nil {
 		log.Fatal(err)
 	}
