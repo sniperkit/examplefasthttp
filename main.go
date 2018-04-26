@@ -7,14 +7,6 @@ import (
 	"log"
 )
 
-// Data the structure of mydb
-type Data struct {
-	ID     int64   `json:"id"`
-	Title  string  `json:"title"`
-	Author string  `json:"author"`
-	Price  float32 `json:"price"`
-}
-
 func main() {
 
 	defer func() {
@@ -34,4 +26,3 @@ func main() {
 	router.POST("/", d.parse)
 	log.Fatal(fasthttp.ListenAndServe(":4000", router.Handler))
 }
-

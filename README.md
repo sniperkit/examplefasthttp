@@ -3,11 +3,6 @@
 A sample of the fast http server that accepts the json, and returns the result from the database in the format json.
 
 Run
-
-    go run main.go db.go
-
-    or if you have Linux
-
     ./bin/linux/app
 
 Request

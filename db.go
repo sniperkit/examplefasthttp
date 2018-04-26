@@ -3,19 +3,27 @@ package main
 import (
 	"database/sql"
 
-	_ "github.com/mattn/go-sqlite3"
-	"log"
-	"github.com/valyala/fasthttp"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/valyala/fasthttp"
+	"log"
 )
 
-// Handler for mydb
+// Handler for db
 type Handler struct {
 	db *sql.DB
 }
 
-// initDB initial mydb
+// Data the structure of db
+type Data struct {
+	ID     int64   `json:"id"`
+	Title  string  `json:"title"`
+	Author string  `json:"author"`
+	Price  float32 `json:"price"`
+}
+
+// initDB initial db
 func (p *Handler) initDB() (*sql.DB, error) {
 	var err error
 	p.db, err = sql.Open("sqlite3", "./book.mydb")
@@ -101,4 +109,3 @@ func (p *Handler) parse(ctx *fasthttp.RequestCtx) {
 	ctx.SetContentType("application/json")
 	ctx.Write(b)
 }
-
