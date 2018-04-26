@@ -1,26 +1,30 @@
-package main
+package mydb
 
 import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/pkg/errors"
+	"log"
 )
 
-// InitDB initial database
-func InitDB(s string) error {
-	db, err = sql.Open("sqlite3", s)
-	db.SetMaxIdleConns(10)
-	db.SetMaxOpenConns(10)
+// Handler for mydb
+type Handler struct {
+	db *sql.DB
+}
+
+// InitDB initial mydb
+func (d *Handler) InitDB() (*sql.DB, error) {
+	var err error
+	d.db, err = sql.Open("sqlite3", "./book.mydb")
 	if err != nil {
-		return errors.Wrap(err, "Not open DB in InitDB")
+		log.Fatal(err)
 	}
-	if err = db.Ping(); err != nil {
-		return errors.Wrap(err, "Not ping DB in InitDB")
+	if err = d.db.Ping(); err != nil {
+		log.Fatal(err)
 	}
-	tx, err1 := db.Begin()
+	tx, err1 := d.db.Begin()
 	if err1 != nil {
-		return errors.Wrap(err, "Not starts a transaction in InitDB")
+		log.Fatal(err)
 	}
 	sql := `
 	drop table if exists books;
@@ -33,22 +37,31 @@ func InitDB(s string) error {
 	create unique index books_id_uindex on books (id);
 	delete from books;
 `
-	_, err = db.Exec(sql)
+	_, err = d.db.Exec(sql)
 	if err != nil {
-		return errors.Wrap(err, "Error fo exec executes in InitDB")
+		log.Fatal(err)
 	}
 
 	stmt, err2 := tx.Prepare("INSERT INTO books(title, author, price) values(?, ?, ?)")
 	if err2 != nil {
-		return errors.Wrap(err, "Not prepared statement on transaction in InitDB")
+		log.Fatal(err)
 	}
 	defer stmt.Close()
 	_, err = stmt.Exec("A cute love story", "Nidhi Agrawal", 1.32)
+	if err != nil {
+		log.Fatal(err)
+	}
 	_, err = stmt.Exec("Ultimate Pleasure", "Rachel G", 1.54)
+	if err != nil {
+		log.Fatal(err)
+	}
 	_, err = stmt.Exec("A Howl In The Night", "Lorelei Sutton", 2.02)
+	if err != nil {
+		log.Fatal(err)
+	}
 	err = tx.Commit()
 	if err != nil {
-		return errors.Wrap(err, "Not commit the transaction")
+		log.Fatal(err)
 	}
-	return err
+	return d.db, err
 }
