@@ -13,8 +13,6 @@ import (
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
-	"flag"
-	"time"
 )
 
 // Handler for db
@@ -29,11 +27,6 @@ type Data struct {
 	Author string  `json:"author"`
 	Price  float32 `json:"price"`
 }
-
-var (
-	shutdownTimeout = flag.Duration("shutdown-timeout", 10*time.Second,
-		"shutdown timeout (5s,5m,5h) before connections are cancelled")
-)
 
 func main() {
 
