@@ -1,6 +1,8 @@
 # examplefasthttp
 
-A sample of the fast http server that accepts the json, and returns the result from the database in the format json.
+A sample of the fasthttp server with graceful shutdown, that accepts the json, and returns the result from the 
+database in the format 
+json.
 
 Run
 
