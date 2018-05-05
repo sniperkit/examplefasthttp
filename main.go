@@ -1,11 +1,11 @@
 package main
 
 import (
+	"database/sql"
+	"encoding/json"
 	"log"
 	"os"
 	"os/signal"
-	"database/sql"
-	"encoding/json"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
@@ -58,9 +58,11 @@ func main() {
 	switch <-ch {
 	case os.Interrupt:
 		log.Println("Interrupt signal received, exiting.")
-		// Do anything
+		// Do anything for interrupt
+		os.Exit(0)
 	default:
 		log.Println("Something went wrong.")
+		os.Exit(0)
 	}
 }
 

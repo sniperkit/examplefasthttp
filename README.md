@@ -1,6 +1,6 @@
 # examplefasthttp
 
-A sample of the fasthttp server with graceful shutdown, that accepts the json, and returns the result from the 
+A sample of the fasthttp server with catching interrupt, that accepts the json, and returns the result from the 
 database in the format 
 json.
 
