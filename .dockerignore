@@ -1,0 +1,9 @@
+.git
+.gitignore
+Makefile
+*.md
+*.db
+*.lock
+*.toml
+vendor/
+.idea/
