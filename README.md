@@ -7,6 +7,11 @@ json.
 Run
 
     ./bin/linux/app
+    
+Docker
+
+    docker build -t test .
+    docker run --publish 4000:4000 --name test --rm test
 
 Request
 
